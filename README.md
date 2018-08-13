@@ -1,3 +1,60 @@
+# Banana Split
+
+## Development setup
+Based of these tutorials: https://facebook.github.io/react-native/blog/2018/05/07/using-typescript-with-react-native and https://facebook.github.io/react-native/docs/getting-started.html 
+Therefore you need Node.js, npm, and yarn before starting.
+- download create react native app
+- run create-react-native-app banana-split
+- run following lines:
+  - npm install --save-dev typescript
+  - npm install --save-dev react-native-typescript-transformer
+  - add this line to package.json under scripts:
+    - "tsc:init": "tsc --init --pretty --jsx react"
+  - npm install --save-dev @types/react @types/react-native
+- uncomment this line in tsconfig.json:
+  - // "allowSyntheticDefaultImports": true,  /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */
+- create file rn-cli.config.js and add following:
+  module.exports = {
+    getTransformModulePath() {
+      return require.resolve('react-native-typescript-transformer');
+    },
+    getSourceExts() {
+      return ['ts', 'tsx'];
+    },
+  };
+- npm install --save-dev ts-jest
+  - replace jest with following:
+    {
+      "jest": {
+        "preset": "react-native",
+        "moduleFileExtensions": [
+          "ts",
+          "tsx",
+          "js"
+        ],
+        "transform": {
+          "^.+\\.(js)$": "<rootDir>/node_modules/babel-jest",
+          "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+        },
+        "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+        "testPathIgnorePatterns": [
+          "\\.snap$",
+          "<rootDir>/node_modules/"
+        ],
+        "cacheDirectory": ".jest/cache"
+      }
+    }
+- npm install --save-dev @types/jest @types/react @types/react-native @types/react-test-renderer
+- add to .gitignore:
+  # Jest
+  #
+  .jest/
+
+
+
+## App Structure
+TODO
+
 This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).
 
 Below you'll find information about performing common tasks. The most recent version of this guide is available [here](https://github.com/react-community/create-react-native-app/blob/master/react-native-scripts/template/README.md).
