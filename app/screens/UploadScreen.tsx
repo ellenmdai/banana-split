@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 
-export class HomeScreen extends Component<{}, {}> {
+
+export class UploadScreen extends Component<{}, {}> {
 
     static navigationOptions = {
-        title: 'Welcome',
+        title: 'Upload Receipt',
     };
 
     constructor(props: any) {
@@ -12,16 +13,17 @@ export class HomeScreen extends Component<{}, {}> {
     }
 
     render() {
+        const itemId = this.props.navigation.getParam('itemId', 'NO-ID');
+        var sample = require('../sampleReceipt.json');
+
         return (
             <View style={styles.container}>
-                <Text>This is Banana Split DEV.</Text>
-                <Text>Upload a copy of a receipt to get started.</Text>
-                <Text>lol jk; tap the button below to start testing.</Text>
+                <Text>ItemId: { JSON.stringify(itemId) }</Text>
+                <Text>This is where a user would upload an image.</Text>
                 <Button
-                    title="Upload a receipt"
-                    onPress={ () => this.props.navigation.navigate('Upload', { itemId: Math.floor(Math.random() * 100) }) }
+                    title="Next"
+                    onPress={() => this.props.navigation.navigate('ReceiptInfo', { 'receiptData': sample }) }
                 />
-                {/* this.props.navigation is correct despite never being defined. */}
             </View>
         )
     }

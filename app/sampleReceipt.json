@@ -7,6 +7,11 @@
         "regions": [ "??" ],
         "keyword": "1011 PM Total Due 247.15"
     },
+    "taxAmount": {
+        "confidenceLevel": 0.9,
+        "index": 17,
+        "data": 27.37
+    },
     "confidenceLevel": 0.6684950731399829,
     "date": {
         "data": "2017-02-08T12:00:00.000Z",
