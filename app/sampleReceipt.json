@@ -1,0 +1,34 @@
+{
+    "totalAmount": {
+        "confidenceLevel": 0.9,
+        "index": 17,
+        "data": 247.15,
+        "text": "1011 PM Total Due 247.15",
+        "regions": [ "??" ],
+        "keyword": "1011 PM Total Due 247.15"
+    },
+    "confidenceLevel": 0.6684950731399829,
+    "date": {
+        "data": "2017-02-08T12:00:00.000Z",
+        "text": "Feb08 17 Tbl 41/1",
+        "regions": [ "??" ],
+        "index": 7,
+        "confidenceLevel": 0.4242716375428083
+    },
+    "lineAmounts": [
+        {
+            "data": 18,
+            "text": "1 1 Lavende Cornelius Vander 18.00 18.00 18.00",
+            "regions": ["??"],
+            "index": 7,
+            "description": "Botanica 18.00 1 1 Lavende Cornelius Vander 18.00 18.00 18.00"
+        },
+        {
+            "data": 18,
+            "text": "1 1 Item Two 6.55 6.55 6.55",
+            "regions": ["??"],
+            "index": 7,
+            "description": "TEST 1 1 Item Two 6.55 6.55 6.55"
+        }
+    ]
+}

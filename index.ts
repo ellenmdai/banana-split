@@ -1,0 +1,3 @@
+//parent index.js
+import { AppRegistry } from 'react-native';
+import { App } from './app/App';

@@ -1,4 +1,6 @@
 {
+  "name": "banana-split",
+  "displayName": "banana-split",
   "expo": {
     "sdkVersion": "27.0.0"
   }

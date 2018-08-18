@@ -1,0 +1,1 @@
+export const DATA_AVAILABLE: string = 'DATA_AVAILABLE';
