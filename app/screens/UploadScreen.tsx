@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
+import { screenStyles } from './screenStyles';
 
 
 export class UploadScreen extends Component<{}, {}> {
@@ -17,7 +18,7 @@ export class UploadScreen extends Component<{}, {}> {
         var sample = require('../sampleReceipt.json');
 
         return (
-            <View style={styles.container}>
+            <View style={screenStyles.default}>
                 <Text>ItemId: { JSON.stringify(itemId) }</Text>
                 <Text>This is where a user would upload an image.</Text>
                 <Button
@@ -29,12 +30,3 @@ export class UploadScreen extends Component<{}, {}> {
     }
 
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    }
-})

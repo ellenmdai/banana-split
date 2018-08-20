@@ -1,5 +1,6 @@
 import React from 'react';
-import { createStackNavigator } from 'react-navigation';
+import { StyleSheet } from 'react-native';
+import { createStackNavigator, Header } from 'react-navigation';
 import { HomeScreen } from './screens/HomeScreen';
 import { UploadScreen } from './screens/UploadScreen';
 import { ReceiptInfoScreen } from './screens/ReceiptInfoScreen';
@@ -36,3 +37,11 @@ export class App extends React.Component {
     return <RootStack />;
   }
 }
+
+const styles = StyleSheet.create({
+  main: {
+      flex: 1,
+      backgroundColor: '#fff',
+      marginTop: Header.HEIGHT
+  }
+})
