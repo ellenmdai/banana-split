@@ -1,18 +1,24 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TextInput, Picker, Button } from 'react-native';
 import { Overview } from '../api/Overview';
+import { AddParticipantModal } from './AddParticipantModal';
 
 interface InfoFormProps {
     data: Overview
 }
 
+//TODO: check info for valid inputs, send data over as props
+
 interface InfoFormState {
     allParticipants: Map<string, JSX.Element>, //will be removed/better implemented once participants are no longer hard coded.
     participants: string[],
-    purchaser: string
+    purchaser: string,
+    showAddPplModal: boolean
 }
 
 export class InfoForm extends Component<InfoFormProps, InfoFormState> {
+
+    private myRef;
 
     constructor(props: InfoFormProps) {
         super(props);
@@ -24,10 +30,14 @@ export class InfoForm extends Component<InfoFormProps, InfoFormState> {
         this.state = {
             allParticipants: allParticipants,
             participants: props.data.participants,
-            purchaser: purchaser
+            purchaser: purchaser,
+            showAddPplModal: false
         }
 
+        this.myRef = React.createRef();
         this.handleParticipantPress = this.handleParticipantPress.bind(this);
+        this.handleAddParticipant = this.handleAddParticipant.bind(this);
+        this.onAddClose = this.onAddClose.bind(this);
     }
 
     render() {
@@ -53,6 +63,8 @@ export class InfoForm extends Component<InfoFormProps, InfoFormState> {
                 <View style={ [styles.field, {flexWrap: 'wrap'}] }>
                     <Text style={ styles.label }>Participants </Text>
                     { Array.from(this.state.allParticipants.values()) }
+                    <Button title='+' color='green' onPress={this.handleAddParticipant} />
+                    { this.state.showAddPplModal ? <AddParticipantModal closeHandler={ this.onAddClose } /> : null }
                 </View>
                 <View style={ styles.field }>
                     <Text style={ styles.label }>Purchaser </Text>
@@ -86,6 +98,15 @@ export class InfoForm extends Component<InfoFormProps, InfoFormState> {
             newPurchaser = '';
         }
         this.setState({ allParticipants: newAllParticipants, participants: newParticipants, purchaser: newPurchaser });
+    }
+
+    private handleAddParticipant() {
+        this.setState({showAddPplModal: true});
+    }
+
+    private onAddClose() {
+        console.log("handling close from InfoForm");
+        this.setState({ showAddPplModal: false});
     }
 
 }
