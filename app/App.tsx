@@ -42,6 +42,11 @@ const styles = StyleSheet.create({
   main: {
       flex: 1,
       backgroundColor: '#fff',
-      marginTop: Header.HEIGHT
+      marginTop: Header.HEIGHT,
+      fontSize: 20,
+      lineHeight: 24
+  },
+  button: {
+    margin: 5
   }
 })
