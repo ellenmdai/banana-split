@@ -4,6 +4,7 @@ import { createStackNavigator, Header } from 'react-navigation';
 import { HomeScreen } from './screens/HomeScreen';
 import { UploadScreen } from './screens/UploadScreen';
 import { ReceiptInfoScreen } from './screens/ReceiptInfoScreen';
+import { ItemsScreen } from './screens/ItemsScreen';
 
 const RootStack = createStackNavigator({
     Home: {
@@ -14,6 +15,9 @@ const RootStack = createStackNavigator({
     },
     ReceiptInfo: {
       screen: ReceiptInfoScreen
+    },
+    ItemsList: {
+      screen: ItemsScreen
     }
   },
   {

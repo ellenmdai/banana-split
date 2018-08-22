@@ -1,4 +1,4 @@
-const pershBabes: Array<string> = new Array<string>("Ellen Dai", "Brooke Felsheim", "Taylor Shishido");
+const pershBabes: string[] = ["Ellen Dai", "Brooke Felsheim", "Taylor Shishido"];
 
 export class Overview {
 
@@ -6,7 +6,7 @@ export class Overview {
     totalAmount: number;
     taxAmount: number;
     merchantName: string;
-    participants: Array<string>;
+    participants: string[];
     purchaser?: string;
     // merchantType: string;
 
@@ -16,6 +16,9 @@ export class Overview {
         this.taxAmount = receipt.taxAmount.data;
         this.merchantName = "Hogsmeade";
         this.participants = pershBabes;
+        if (receipt.purchaser) {
+            this.purchaser = receipt.purchaser;
+        }
     }
 
     public setPurchaser(purchaser: string) {
