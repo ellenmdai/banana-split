@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TextInput, Picker, Button, TouchableOpacity } from 'react-native';
 import DatePicker from 'react-native-datepicker';
-import { Overview } from '../api/Overview';
+import { ReceiptOverview } from '../api/ReceiptOverview';
 import { AddParticipantModal } from './AddParticipantModal';
+import { PersonButton } from './PersonButton';
 
 interface InfoFormProps {
-    data: Overview,
+    overview: ReceiptOverview,
+    participants: string[]
     submitHandler: any
 }
-
-//TODO: check info for valid inputs, send data over as props
 
 interface InfoFormState {
     transactionName: string,
     date: Date,
-    total: number,
-    tax: number,
+    total: string,  // must be string to format correctly in text inputs, but typecheck later
+    tax: string,
     allParticipants: Map<string, JSX.Element>, //will be removed/better implemented once participants are no longer hard coded.
     participants: string[],
     purchaser: string,
@@ -26,24 +26,29 @@ export class InfoForm extends Component<InfoFormProps, InfoFormState> {
 
     constructor(props: InfoFormProps) {
         super(props);
-        var purchaser = props.data.participants.length == 0 ? '' : props.data.participants[0];
+        var purchaser = props.participants.length == 0 ? '' : props.participants[0];
         var allParticipants: Map<string, JSX.Element> = new Map<string, JSX.Element>();
-        props.data.participants.forEach(p => {
-            allParticipants.set(p, this.createParticipant(p, true));
-        }) 
+        props.participants.forEach(p => {
+            // allParticipants.set(p, this.renderParcipantButton(p, true));
+            allParticipants.set(p, <PersonButton 
+                key={ p }
+                name={ p } 
+                isIn={ true } 
+                onPress={ () => this.handleParticipantPress(p) } />);
+        }); 
         this.state = {
-            transactionName: props.data.merchantName,
-            date: props.data.date,
-            total: props.data.totalAmount,
-            tax: props.data.taxAmount,
+            transactionName: props.overview.merchantName,
+            date: props.overview.date,
+            total: props.overview.totalAmount.toString(),
+            tax: props.overview.taxAmount.toString(),
             allParticipants: allParticipants,
-            participants: props.data.participants,
+            participants: props.participants,
             purchaser: purchaser,
             showAddPplModal: false
         }
 
         this.handleParticipantPress = this.handleParticipantPress.bind(this);
-        this.handleAddParticipant = this.handleAddParticipant.bind(this);
+        this.openAddModal = this.openAddModal.bind(this);
         this.onAddClose = this.onAddClose.bind(this);
         this.onAddClick = this.onAddClick.bind(this);
         this.onNext = this.onNext.bind(this);
@@ -74,17 +79,17 @@ export class InfoForm extends Component<InfoFormProps, InfoFormState> {
                 </View>                
                 <View style={ styles.field }>
                     <Text style={ styles.label }>Total </Text>
-                    <TextInput style={ styles.input } keyboardType='numeric' value={ this.state.total.toString() } onChangeText={ newTotal => this.setState({ total: parseFloat(newTotal) }) }/>
+                    <TextInput style={ styles.input } keyboardType='numeric' value={ this.state.total } onChangeText={ newTotal => this.setState({ total: newTotal }) }/>
                 </View>
                 <View style={ styles.field }>
                     <Text style={ styles.label }>Tax </Text>
-                    <TextInput style={ styles.input } keyboardType='numeric' value={ this.state.tax.toString() } onChangeText={ newTax => this.setState({ tax: parseFloat(newTax) }) }/>
+                    <TextInput style={ styles.input } keyboardType='numeric' value={ this.state.tax } onChangeText={ newTax => this.setState({ tax: newTax }) }/>
                 </View>
                 <View style={ [styles.field, {flexWrap: 'wrap'}] }>
                     <Text style={ styles.label }>Participants </Text>
                     { Array.from(this.state.allParticipants.values()) }
                     <View style={ styles.button }>
-                        <Button title='+' color='green' onPress={this.handleAddParticipant} />
+                        <Button title='+' color='green' onPress={this.openAddModal} />
                     </View>
                 </View>
                 <View style={ styles.field }>
@@ -112,12 +117,21 @@ export class InfoForm extends Component<InfoFormProps, InfoFormState> {
         var newPurchaser = this.state.purchaser;    // is this actually doing anything? CHECK
         if (newParticipants.indexOf(name) != -1) { // touched participant was active, and want to remove
             newParticipants.splice(newParticipants.indexOf(name), 1); // delete one entry at index of name
-            newAllParticipants.set(name, this.createParticipant(name, false));
-
+            // newAllParticipants.set(name, this.renderParcipantButton(name, false));
+            newAllParticipants.set(name, <PersonButton 
+                key={ name }
+                name={ name } 
+                isIn={ false } 
+                onPress={ () => this.handleParticipantPress(name) } />);
         }
         else {
             newParticipants.push(name);
-            newAllParticipants.set(name, this.createParticipant(name, true));
+            // newAllParticipants.set(name, this.renderParcipantButton(name, true));
+            newAllParticipants.set(name, <PersonButton 
+                key={ name }
+                name={ name } 
+                isIn={ true } 
+                onPress={ () => this.handleParticipantPress(name) } />)
         }
         if (newPurchaser == name) {
             newPurchaser = '';
@@ -125,7 +139,7 @@ export class InfoForm extends Component<InfoFormProps, InfoFormState> {
         this.setState({ allParticipants: newAllParticipants, participants: newParticipants, purchaser: newPurchaser });
     }
 
-    private handleAddParticipant() {
+    private openAddModal() {
         this.setState({showAddPplModal: true});
     }
 
@@ -134,9 +148,19 @@ export class InfoForm extends Component<InfoFormProps, InfoFormState> {
     }
 
     private onAddClick(newName) {
+        if (this.state.participants.indexOf(newName) != -1) {   // index of name not found
+            alert("That person already exists.");
+            return;
+        }
+
         var newAll = this.state.allParticipants;
-        newAll.set(newName, this.createParticipant(newName, true));
-        var newParticipants = this.state.participants
+        // newAll.set(newName, this.renderParcipantButton(newName, true));
+        newAll.set(newName, <PersonButton 
+            key={ newName }
+            name={ newName } 
+            isIn={ true } 
+            onPress={ () => this.handleParticipantPress(newName) } />);
+        var newParticipants = this.state.participants;
         newParticipants.push(newName);
 
         this.setState({
@@ -148,38 +172,31 @@ export class InfoForm extends Component<InfoFormProps, InfoFormState> {
     // TODO: make cleaner somehow
     private onNext() {
         //TODO: check date
-        console.log("_____");
         if (!this.state.transactionName || !this.state.total || !this.state.tax || !this.state.participants || !this.state.purchaser) {
             alert("one or more of the above fields is empty or invalid.");
             return;
         }
+        if (!parseFloat(this.state.total) || !parseFloat(this.state.tax)) {
+            alert("Tax or total is not a number.");
+            return;
+        }
 
-        var participantsString = "";
-        this.state.participants.forEach(participant => {
-            participantsString + '"' + participant + '", ';
-        });
-
-        // Merchant name currently hardcoded in Overview
-        var json = JSON.parse('{' +
-            '"date": { "data": "' + this.state.date + '" }, ' +
-            '"totalAmount": { "data": ' + this.state.total + ' }, ' +
-            '"taxAmount": { "data": ' + this.state.tax + ' }, ' +
-            '"merchantName": { "data": "' + this.state.transactionName + '" }, ' +
-            '"participants": [' + participantsString + '], ' +
-            '"purchaser": "' + this.state.purchaser + '"' +
-        '}')
-        var newOverview = new Overview(json);
-        this.props.submitHandler(newOverview);
+        var newOverview = this.props.overview;
+        newOverview.setMerchantName(this.state.transactionName);
+        newOverview.setDate(this.state.date);
+        newOverview.setTotalAmount(parseFloat(this.state.total));
+        newOverview.setTaxAmount(parseFloat(this.state.tax));
+        this.props.submitHandler(newOverview, this.state.participants, this.state.purchaser);
     }
 
-    private createParticipant(name: string, isIn: boolean): JSX.Element {
-        var color = isIn ? IN : OUT;
-        return (
-            <View style={ styles.button } key={ name }>
-                <Button color={ color } title={name} onPress= { (ev) => this.handleParticipantPress(name) } />
-            </View>
-        )
-    }
+    // private renderParcipantButton(name: string, isIn: boolean): JSX.Element {
+    //     var color = isIn ? IN : OUT;
+    //     return (
+    //         <View style={ styles.button } key={ name }>
+    //             <Button color={ color } title={name} onPress= { (ev) => this.handleParticipantPress(name) } />
+    //         </View>
+    //     )
+    // }
 
 }
 

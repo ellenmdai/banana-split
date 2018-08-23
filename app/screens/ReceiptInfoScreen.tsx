@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
-import { Overview } from '../api/Overview';
+import { ReceiptOverview } from '../api/ReceiptOverview';
 import { InfoForm } from '../components/InfoForm';
 import { screenStyles } from './screenStyles';
 
@@ -19,27 +19,20 @@ export class ReceiptInfoScreen extends Component<{}, {}> {
 
     render() {
         let nav = this.props.navigation;
-        var overview = new Overview(nav.getParam('receiptData', "INVALID"));
+        var receiptOverview = nav.getParam('receiptOverview', "INVALID");
+        var initialParticipants = nav.getParam('participants', "INVALID");
 
         return (
             <View style={ [screenStyles.default, styles.container] }>
                 <Text style={ styles.textHeader } >Here's what we found:</Text>
-                <InfoForm data={ overview } submitHandler={ this.onNext } />
+                <InfoForm overview={ receiptOverview } participants={ initialParticipants } submitHandler={ this.onNext } />
             </View>
         )
     }
 
     // own method so can be passed as param to InfoForm 
-    // CHECK
-    private onNext(overview: Overview) {
-        console.log(overview.date);
-        console.log(overview.merchantName);
-        console.log(overview.totalAmount);
-        console.log(overview.taxAmount);
-        console.log(overview.participants);
-        console.log(overview.purchaser);
-
-        this.props.navigation.navigate('ItemsList', { 'overview': overview })
+    private onNext(overview: ReceiptOverview, participants: string[], purchaser: string) {
+        this.props.navigation.navigate('ItemsList', { 'receiptOverview': overview, 'participants': participants, 'purchaser': purchaser })
     }
 
 }

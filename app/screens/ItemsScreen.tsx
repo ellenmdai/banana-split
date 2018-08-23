@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { screenStyles } from './screenStyles';
-import { Overview } from '../api/Overview';
+import { ReceiptOverview } from '../api/ReceiptOverview';
 
 interface ItemsScreenProps {
-    overview: Overview
+    overview: ReceiptOverview
 }
 
 
@@ -19,11 +19,12 @@ export class ItemsScreen extends Component<ItemsScreenProps, {}> {
     }
 
     render() {
-        const overview = this.props.navigation.getParam('overview', 'NO-OVERVIEW');
+        const overview = this.props.navigation.getParam('receiptOverview', 'NO-OVERVIEW');
 
         return (
             <View style={screenStyles.default}>
-                <Text>{ overview.merchantName }</Text>
+                <Text>{ overview.totalAmount }</Text>
+                <Text>{ this.props.navigation.getParam('participants', "INVALID-PARTICIPANTS") }</Text>
             </View>
         )
     }

@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { screenStyles } from './screenStyles';
+import { ReceiptOverview } from '../api/ReceiptOverview';
 
+interface UploadScreenState {
+    processing: boolean
+}
 
-export class UploadScreen extends Component<{}, {}> {
+const pershBabes: string[] = ["Ellen", "Brooke", "Taylor"];
+
+export class UploadScreen extends Component<{}, UploadScreenState> {
 
     static navigationOptions = {
         title: 'Upload Receipt',
@@ -11,22 +17,34 @@ export class UploadScreen extends Component<{}, {}> {
 
     constructor(props: any) {
         super(props);
+        this.state = {
+            processing: false
+        }
+
+        this.onNext = this.onNext.bind(this);
     }
 
     render() {
-        const itemId = this.props.navigation.getParam('itemId', 'NO-ID');
-        var sample = require('../sampleReceipt.json');
+        var style = this.state.processing ? [screenStyles.default, screenStyles.loading ] : [ screenStyles.default ];
 
         return (
-            <View style={screenStyles.default}>
-                <Text>ItemId: { JSON.stringify(itemId) }</Text>
+            <View style={ style }>
                 <Text>This is where a user would upload an image.</Text>
                 <Button
                     title="Next"
-                    onPress={() => this.props.navigation.navigate('ReceiptInfo', { 'receiptData': sample }) }
+                    onPress={ this.onNext }
                 />
             </View>
         )
+    }
+
+    private onNext() {
+        this.setState({ processing: true });    // visually alert users of loading
+        var sample = require('../sampleReceipt.json');
+       
+        var ppl = pershBabes;
+        var receiptOverview = new ReceiptOverview(sample);
+        this.props.navigation.navigate('ReceiptInfo', { 'receiptOverview': receiptOverview, 'participants': ppl });
     }
 
 }

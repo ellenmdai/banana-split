@@ -7,5 +7,8 @@ export const screenStyles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         padding: 15
+    },
+    loading: {
+        backgroundColor: '#0008'
     }
   })
