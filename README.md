@@ -1,7 +1,45 @@
 # Banana Split
 React Native app to easily split uneven expenses among friends using optical character recognition on receipts.
 
+## Current Features
+Note: as in, the first iteration of a useable app.
+* Automatically read a picture of a receipt and extract key information using Taggun API
+* Edit what Taggun reads in case of a mistake
+* Add and remove participants in each purchase, as well as each purchase item individually.
+* Once all information in input, will output how much each person must contribute to the total.
+* Currently, names are hardcoded for my personal use.
+
+## Future Goals
+* Allow users to make accounts to save groups, settings, and payment logs.
+  * This way, custom default participants can be used as well.
+* Integrate with Splitwise or Venmo
+
 ## Development setup
+This app is being developed using the [Expo app](https://expo.io), [Typescript](https://www.typescriptlang.org/) and [Redux](https://redux.js.org/). To learn more on how to get started with these in your own app, check out these links:
+* [Getting Started with React Native](https://facebook.github.io/react-native/docs/getting-started.html)
+* [Using TypeScript with React Native](https://facebook.github.io/react-native/blog/2018/05/07/using-typescript-with-react-native)
+Before getting started, make sure git, Node.js, and npm are installed.
+  * TODO: how to integrate both these tutorials together
+* [Redux](https://medium.com/@mosesesan/tutorial-react-native-redux-boilerplate-4899)
+
+1. clone this repo into your directory using `git clone https://github.com/ellenmdai/banana-split.git`
+2. run `npm install` to install all package dependencies.
+// tsc:init?
+3. to run the app on Expo for dev, run the command `npm start`.
+
+## App Structure
+BAsed on these two: https://medium.com/the-andela-way/how-to-structure-a-react-native-app-for-scale-a29194cd33fc and https://perezprogramming.com/2018/03/14/a-scalable-react-native-project-structure/ 
+oh and this for Redux: https://medium.com/@mosesesan/tutorial-react-native-redux-boilerplate-4899f5c4f431
+
+-- NEED App.js or else react-scripts can't find entry point
+--Use react-navigation not react-native-navigation: https://reactnavigation.org/docs/en/getting-started.html
+
+Redux:
+https://medium.com/@mosesesan/tutorial-react-native-redux-boilerplate-4899 
+
+
+# ignore below
+
 Based of these tutorials: https://facebook.github.io/react-native/blog/2018/05/07/using-typescript-with-react-native and https://facebook.github.io/react-native/docs/getting-started.html 
 Therefore you need Node.js, npm, and yarn before starting.
 - download create react native app
@@ -51,17 +89,6 @@ Therefore you need Node.js, npm, and yarn before starting.
   #
   .jest/
 
-
-
-## App Structure
-BAsed on these two: https://medium.com/the-andela-way/how-to-structure-a-react-native-app-for-scale-a29194cd33fc and https://perezprogramming.com/2018/03/14/a-scalable-react-native-project-structure/ 
-oh and this for Redux: https://medium.com/@mosesesan/tutorial-react-native-redux-boilerplate-4899f5c4f431
-
--- NEED App.js or else react-scripts can't find entry point
---Use react-navigation not react-native-navigation: https://reactnavigation.org/docs/en/getting-started.html
-
-Redux:
-https://medium.com/@mosesesan/tutorial-react-native-redux-boilerplate-4899 
 
 This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).
 
