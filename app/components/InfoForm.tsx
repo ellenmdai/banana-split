@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput, Picker, Button, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Picker, Button } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import { ReceiptOverview } from '../api/ReceiptOverview';
 import { AddParticipantModal } from './AddParticipantModal';
@@ -34,7 +34,7 @@ export class InfoForm extends Component<InfoFormProps, InfoFormState> {
                 key={ p }
                 name={ p } 
                 isIn={ true } 
-                onPress={ () => this.handleParticipantPress(p) } />);
+                onPress={ () => this.onParticipantPress(p) } />);
         }); 
         this.state = {
             transactionName: props.overview.merchantName,
@@ -47,7 +47,7 @@ export class InfoForm extends Component<InfoFormProps, InfoFormState> {
             showAddPplModal: false
         }
 
-        this.handleParticipantPress = this.handleParticipantPress.bind(this);
+        this.onParticipantPress = this.onParticipantPress.bind(this);
         this.openAddModal = this.openAddModal.bind(this);
         this.onAddClose = this.onAddClose.bind(this);
         this.onAddClick = this.onAddClick.bind(this);
@@ -111,7 +111,8 @@ export class InfoForm extends Component<InfoFormProps, InfoFormState> {
         )
     }
 
-    private handleParticipantPress(name: string) {
+    // TODO: consolidate with ItemInList's onParticipantPress if possible
+    private onParticipantPress(name: string) {
         var newParticipants = this.state.participants;
         var newAllParticipants = this.state.allParticipants;
         var newPurchaser = this.state.purchaser;    // is this actually doing anything? CHECK
@@ -122,7 +123,7 @@ export class InfoForm extends Component<InfoFormProps, InfoFormState> {
                 key={ name }
                 name={ name } 
                 isIn={ false } 
-                onPress={ () => this.handleParticipantPress(name) } />);
+                onPress={ () => this.onParticipantPress(name) } />);
         }
         else {
             newParticipants.push(name);
@@ -131,7 +132,7 @@ export class InfoForm extends Component<InfoFormProps, InfoFormState> {
                 key={ name }
                 name={ name } 
                 isIn={ true } 
-                onPress={ () => this.handleParticipantPress(name) } />)
+                onPress={ () => this.onParticipantPress(name) } />)
         }
         if (newPurchaser == name) {
             newPurchaser = '';
@@ -159,7 +160,7 @@ export class InfoForm extends Component<InfoFormProps, InfoFormState> {
             key={ newName }
             name={ newName } 
             isIn={ true } 
-            onPress={ () => this.handleParticipantPress(newName) } />);
+            onPress={ () => this.onParticipantPress(newName) } />);
         var newParticipants = this.state.participants;
         newParticipants.push(newName);
 

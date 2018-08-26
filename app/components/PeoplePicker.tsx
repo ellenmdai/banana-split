@@ -1,3 +1,5 @@
+// ON HOLD; FOR FUTURE IMPROVED VERSIONS OF BANANA-SPLIT
+
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TextInput, Picker, Button, TouchableOpacity } from 'react-native';
 import DatePicker from 'react-native-datepicker';

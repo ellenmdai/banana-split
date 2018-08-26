@@ -8,6 +8,9 @@ export const screenStyles = StyleSheet.create({
         justifyContent: 'center',
         padding: 15
     },
+    justifyTop: {
+        justifyContent: 'flex-start'
+    },
     loading: {
         backgroundColor: '#0008'
     }

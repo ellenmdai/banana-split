@@ -5,6 +5,11 @@ export class Item {
     split?: number;
     people?: string[];
 
+    public static emptyItem = {
+        text: "new item",
+        data: 0.00
+    }
+
     constructor(entry: any) {
         this.name = entry.text;
         this.price = entry.data;
